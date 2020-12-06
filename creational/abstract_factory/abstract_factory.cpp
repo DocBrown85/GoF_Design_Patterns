@@ -1,5 +1,7 @@
 #include <cstring>
 #include <iostream>
+#include <memory>
+#include <utility>
 
 namespace creational
 {
@@ -56,35 +58,35 @@ namespace creational
         {
         public:
             virtual ~AbstractFactory() {}
-            virtual AbstractProductA *getProductA() const = 0;
-            virtual AbstractProductB *getProductB() const = 0;
+            virtual std::shared_ptr<AbstractProductA> getProductA() const = 0;
+            virtual std::shared_ptr<AbstractProductB> getProductB() const = 0;
         };
 
         class ConcreteFactory1 : public AbstractFactory
         {
         public:
-            AbstractProductA *getProductA() const override
+            std::shared_ptr<AbstractProductA> getProductA() const override
             {
-                return new ConcreteProductA1();
+                return std::make_shared<ConcreteProductA1>();
             }
 
-            AbstractProductB *getProductB() const override
+            std::shared_ptr<AbstractProductB> getProductB() const override
             {
-                return new ConcreteProductB1();
+                return std::make_shared<ConcreteProductB1>();
             }
         };
 
         class ConcreteFactory2 : public AbstractFactory
         {
         public:
-            AbstractProductA *getProductA() const override
+            std::shared_ptr<AbstractProductA> getProductA() const override
             {
-                return new ConcreteProductA2();
+                return std::make_shared<ConcreteProductA2>();
             }
 
-            AbstractProductB *getProductB() const override
+            std::shared_ptr<AbstractProductB> getProductB() const override
             {
-                return new ConcreteProductB2();
+                return std::make_shared<ConcreteProductB2>();
             }
         };
 
@@ -93,23 +95,21 @@ namespace creational
         public:
             Client() {}
 
-            void setFactory(AbstractFactory *factory)
+            void setFactory(std::shared_ptr<AbstractFactory> factory)
             {
                 _factory = factory;
             }
 
             void execute()
             {
-                const AbstractProductA *product_a = _factory->getProductA();
-                const AbstractProductB *product_b = _factory->getProductB();
+                const std::shared_ptr<AbstractProductA> product_a = _factory->getProductA();
+                const std::shared_ptr<AbstractProductB> product_b = _factory->getProductB();
                 std::cout << product_a->usefulMethod() << "\n";
                 std::cout << product_b->usefulMethod() << "\n";
-                delete product_a;
-                delete product_b;
             }
 
         private:
-            AbstractFactory *_factory;
+            std::shared_ptr<AbstractFactory> _factory;
         };
 
     } // namespace abstract_factory
@@ -121,17 +121,15 @@ int main()
     creational::abstract_factory::Client client;
 
     std::cout << "Setting up Client with ConcreteFactory1:\n";
-    creational::abstract_factory::ConcreteFactory1 *concreteFactory1 = new creational::abstract_factory::ConcreteFactory1();
+    std::shared_ptr<creational::abstract_factory::ConcreteFactory1> concreteFactory1 = std::make_shared<creational::abstract_factory::ConcreteFactory1>();
     client.setFactory(concreteFactory1);
     client.execute();
-    delete concreteFactory1;
 
     std::cout << std::endl;
     std::cout << "Setting up Client with ConcreteFactory2:\n";
-    creational::abstract_factory::ConcreteFactory2 *concreteFactory2 = new creational::abstract_factory::ConcreteFactory2();
-    client.setFactory(concreteFactory1);
+    std::shared_ptr<creational::abstract_factory::ConcreteFactory2> concreteFactory2 = std::make_shared<creational::abstract_factory::ConcreteFactory2>();
+    client.setFactory(concreteFactory2);
     client.execute();
-    delete concreteFactory2;
 
     return 0;
 }
