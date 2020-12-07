@@ -4,9 +4,9 @@ This repo holds sample implementation of the 23 Gang of Four Design Patterns usi
 
 Design Patterns are divided into three cathegories according to their purpose:
 
-* Creational: concern the instatiation process, making a system independent of how its objects are created, composed and represented
-* Structural: concern with how classes and objects are composed to form larger structures
-* Behavioral: concern with algorithms and the assignment of responsabilities between objects
+* __Creational__: concern the instatiation process, making a system independent of how its objects are created, composed and represented
+* __Structural__: concern with how classes and objects are composed to form larger structures
+* __Behavioral__: concern with algorithms and the assignment of responsabilities between objects
 
 ## Design Patterns Outline
 
