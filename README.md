@@ -1,8 +1,16 @@
-# C++ Design Patterns
+# Design Patterns
 
 This repo holds sample implementation of the 23 Gang of Four Design Patterns using C++ programming language.
 
+Design Patterns are divided into three cathegories according to their purpose:
+
+* Creational: concern the instatiation process, making a system independent of how its objects are created, composed and represented
+* Structural: concern with how classes and objects are composed to form larger structures
+* Behavioral: concern with algorithms and the assignment of responsabilities between objects
+
 ## Design Patterns Outline
+
+The following table outlines the 23 GoF Design Patterns.
 
 | Creational                                                                                                    | Structural | Behavioral             |
 | ------------------------------------------------------------------------------------------------------------- | ---------- | ---------------------- |
