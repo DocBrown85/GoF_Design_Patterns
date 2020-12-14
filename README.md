@@ -16,7 +16,7 @@ The following table outlines the 23 GoF Design Patterns.
 | ------------------------------------------------------------------------------------------------------------- | ---------- | ---------------------- |
 | [Abstract Factory](https://github.com/DocBrown85/cpp_design_patterns/tree/master/creational/abstract_factory) | Adapter    | Chain of Resposibility |
 | [Builder](https://github.com/DocBrown85/cpp_design_patterns/tree/master/creational/builder)                   | Bridge     | Command                |
-| Factory Method                                                                                                | Composite  | Interpreter            |
+| [Factory Method](https://github.com/DocBrown85/cpp_design_patterns/tree/master/creational/factory_method)     | Composite  | Interpreter            |
 | Object Pool                                                                                                   | Decorator  | Iterator               |
 | Prototype                                                                                                     | Facade     | Mediator               |
 | Sigleton                                                                                                      | Flyweight  | Memento                |
