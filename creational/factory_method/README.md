@@ -11,4 +11,4 @@ Define an interface for creating an object, but let subclasses decide which clas
 
 ## Structure
 
-![Factory Method](https://raw.githubusercontent.com/DocBrown85/cpp_design_patterns/master/images/factory_method.svg)
+![Factory Method](https://raw.githubusercontent.com/DocBrown85/design_patterns/master/images/factory_method.svg)

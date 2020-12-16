@@ -12,4 +12,4 @@ Provides an interface for creating families of related or dependent objects with
 
 ## Structure
 
-![AbstractFactory](https://raw.githubusercontent.com/DocBrown85/cpp_design_patterns/master/images/abstract_factory.svg)
+![AbstractFactory](https://raw.githubusercontent.com/DocBrown85/design_patterns/master/images/abstract_factory.svg)

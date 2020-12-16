@@ -11,4 +11,4 @@ Separate the construction of a complex object from its representation so that th
 
 ## Structure
 
-![Builder](https://raw.githubusercontent.com/DocBrown85/cpp_design_patterns/master/images/builder.svg)
+![Builder](https://raw.githubusercontent.com/DocBrown85/design_patterns/master/images/builder.svg)
