@@ -85,9 +85,8 @@ namespace creational
         class Client
         {
         public:
-            Client(std::shared_ptr<PrototypeFactory> prototype_factory)
+            Client(std::unique_ptr<PrototypeFactory> prototype_factory) : _prototype_factory(std::move(prototype_factory))
             {
-                _prototype_factory = prototype_factory;
             }
 
             void execute()
@@ -106,7 +105,7 @@ namespace creational
             }
 
         private:
-            std::shared_ptr<PrototypeFactory> _prototype_factory;
+            std::unique_ptr<PrototypeFactory> _prototype_factory;
         };
 
     } // namespace prototype
@@ -115,8 +114,7 @@ namespace creational
 
 int main()
 {
-    std::shared_ptr<creational::prototype::PrototypeFactory> prototype_factory = std::make_shared<creational::prototype::PrototypeFactory>();
-    creational::prototype::Client client(prototype_factory);
+    creational::prototype::Client client(std::make_unique<creational::prototype::PrototypeFactory>());
     client.execute();
 
     return 0;
