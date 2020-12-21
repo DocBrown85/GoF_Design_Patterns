@@ -18,7 +18,7 @@ The following table outlines the 23 GoF Design Patterns.
 | [Builder](https://github.com/DocBrown85/design_patterns/tree/master/creational/builder)                   | Bridge     | Command                |
 | [Factory Method](https://github.com/DocBrown85/design_patterns/tree/master/creational/factory_method)     | Composite  | Interpreter            |
 | [Prototype](https://github.com/DocBrown85/design_patterns/tree/master/creational/prototype)               | Decorator  | Iterator               |
-| Singleton                                                                                                 | Facade     | Mediator               |
+| [Singleton](https://github.com/DocBrown85/design_patterns/tree/master/creational/singleton)               | Facade     | Mediator               |
 |                                                                                                           | Flyweight  | Memento                |
 |                                                                                                           | Proxy      | Observer               |
 |                                                                                                           |            | State                  |
