@@ -13,7 +13,7 @@ namespace creational
             Singleton(Singleton &other) = delete;
             void operator=(const Singleton &other) = delete;
 
-            static Singleton *instance();
+            static std::shared_ptr<Singleton> instance();
 
             void operation()
             {
@@ -29,17 +29,17 @@ namespace creational
             Singleton(const std::string value) : _value(value){};
 
         private:
-            static Singleton *_singleton;
+            static std::shared_ptr<Singleton> _singleton;
             std::string _value;
         };
 
-        Singleton *Singleton::_singleton = nullptr;
+        std::shared_ptr<Singleton> Singleton::_singleton = nullptr;
 
-        Singleton *Singleton::instance()
+        std::shared_ptr<Singleton> Singleton::instance()
         {
             if (_singleton == nullptr)
             {
-                _singleton = new Singleton("SINGLETON");
+                _singleton = std::shared_ptr<Singleton>{new Singleton("SINGLETON")};
             }
             return _singleton;
         }
@@ -50,16 +50,16 @@ namespace creational
             void execute()
             {
                 // This call will create an instance of Singleton
-                Singleton *singleton1 = Singleton::instance();
+                std::shared_ptr<Singleton> singleton1 = Singleton::instance();
 
                 // This call will not create a new instance, rather will return the one
                 // created earlier
-                Singleton *singleton2 = Singleton::instance();
+                std::shared_ptr<Singleton> singleton2 = Singleton::instance();
 
                 std::cout << "We got the same instance:"
                           << "\n";
-                std::cout << "singleton1 raw address is: " << (void *)singleton1 << "\n";
-                std::cout << "singleton2 raw address is: " << (void *)singleton2 << "\n";
+                std::cout << "singleton1 raw address is: " << (void *)singleton1.get() << "\n";
+                std::cout << "singleton2 raw address is: " << (void *)singleton2.get() << "\n";
             }
         };
 
