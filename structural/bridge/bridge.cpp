@@ -92,9 +92,9 @@ int main()
     client.execute();
 
     std::unique_ptr<structural::bridge::Implementor> concrete_implementor_b = std::make_unique<structural::bridge::ConcreteImplementorB>();
-    std::unique_ptr<structural::bridge::RefinedAbstraction> refined_abstraction = std::make_unique<structural::bridge::RefinedAbstraction>(std::move(concrete_implementor_b));
-    structural::bridge::Client refined_client(std::move(refined_abstraction));
-    refined_client.execute();
+    std::unique_ptr<structural::bridge::Abstraction> refined_abstraction = std::make_unique<structural::bridge::RefinedAbstraction>(std::move(concrete_implementor_b));
+    client.set_abstraction(std::move(refined_abstraction));
+    client.execute();
 
     return 0;
 }
