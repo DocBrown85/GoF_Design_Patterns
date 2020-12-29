@@ -1,9 +1,7 @@
-#include <algorithm>
 #include <cstring>
 #include <iostream>
 #include <list>
 #include <memory>
-#include <utility>
 
 namespace structural
 {
