@@ -26,7 +26,7 @@ namespace structural
         class Decorator : public Component
         {
         public:
-            Decorator(std::shared_ptr<Component> component) : _component(component)
+            Decorator(std::unique_ptr<Component> component) : _component(std::move(component))
             {
             }
 
@@ -36,13 +36,13 @@ namespace structural
             }
 
         protected:
-            std::shared_ptr<Component> _component;
+            std::unique_ptr<Component> _component;
         };
 
         class ConcreteDecoratorA : public Decorator
         {
         public:
-            ConcreteDecoratorA(std::shared_ptr<Component> component) : Decorator(component)
+            ConcreteDecoratorA(std::unique_ptr<Component> component) : Decorator(std::move(component))
             {
             }
             std::string operation() const override
@@ -54,7 +54,7 @@ namespace structural
         class ConcreteDecoratorB : public Decorator
         {
         public:
-            ConcreteDecoratorB(std::shared_ptr<Component> component) : Decorator(component)
+            ConcreteDecoratorB(std::unique_ptr<Component> component) : Decorator(std::move(component))
             {
             }
             std::string operation() const override
@@ -66,7 +66,7 @@ namespace structural
         class Client
         {
         public:
-            void execute(std::shared_ptr<Component> component)
+            void execute(std::unique_ptr<Component> const &component)
             {
                 std::cout << component->operation() << "\n";
             }
@@ -80,13 +80,13 @@ int main()
 {
     structural::decorator::Client client;
 
-    std::shared_ptr<structural::decorator::Component> simple_component = std::make_shared<structural::decorator::ConcreteComponent>();
+    std::unique_ptr<structural::decorator::Component> simple_component = std::make_unique<structural::decorator::ConcreteComponent>();
     std::cout << "Calling Client with a not decorated component:\n";
     client.execute(simple_component);
     std::cout << "\n\n";
 
-    std::shared_ptr<structural::decorator::Component> decorator1 = std::make_shared<structural::decorator::ConcreteDecoratorA>(simple_component);
-    std::shared_ptr<structural::decorator::Component> decorator2 = std::make_shared<structural::decorator::ConcreteDecoratorB>(decorator1);
+    std::unique_ptr<structural::decorator::Component> decorator1 = std::make_unique<structural::decorator::ConcreteDecoratorA>(std::move(simple_component));
+    std::unique_ptr<structural::decorator::Component> decorator2 = std::make_unique<structural::decorator::ConcreteDecoratorB>(std::move(decorator1));
     std::cout << "Calling Client with a decorated component:\n";
     client.execute(decorator2);
     std::cout << "\n";
