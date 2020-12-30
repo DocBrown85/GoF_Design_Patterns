@@ -5,126 +5,90 @@
 
 namespace structural
 {
-    namespace composite
+    namespace decorator
     {
-        class Component : public std::enable_shared_from_this<Component>
+        class Component
         {
         public:
-            ~Component() {}
-
-            void set_parent(std::shared_ptr<Component> parent)
-            {
-                _parent = parent;
-            }
-
-            std::shared_ptr<Component> get_parent()
-            {
-                return _parent;
-            }
-
-            virtual void add(std::shared_ptr<Component> component) {}
-
-            virtual void remove(std::shared_ptr<Component> component) {}
-
-            virtual bool is_composite()
-            {
-                return false;
-            }
-
+            virtual ~Component() {}
             virtual std::string operation() const = 0;
-
-        protected:
-            std::shared_ptr<Component> _parent;
         };
 
-        class Leaf : public Component
+        class ConcreteComponent : public Component
         {
         public:
             std::string operation() const override
             {
-                return "Leaf";
+                return "ConcreteComponent";
             }
         };
 
-        class Composite : public Component
+        class Decorator : public Component
         {
         public:
-            void add(std::shared_ptr<Component> component) override
+            Decorator(std::shared_ptr<Component> component) : _component(component)
             {
-                _children.push_back(component);
-                component->set_parent(shared_from_this());
-            }
-
-            void remove(std::shared_ptr<Component> component) override
-            {
-                _children.remove(component);
-                component->set_parent(nullptr);
-            }
-
-            bool is_composite() override
-            {
-                return true;
             }
 
             std::string operation() const override
             {
-                std::string result;
-                for (const std::shared_ptr<Component> child : _children)
-                {
-                    if (child == _children.back())
-                    {
-                        result += child->operation();
-                    }
-                    else
-                    {
-                        result += child->operation() + "+";
-                    }
-                }
-
-                return "Branch(" + result + ")";
+                return _component->operation();
             }
 
         protected:
-            std::list<std::shared_ptr<Component>> _children;
+            std::shared_ptr<Component> _component;
+        };
+
+        class ConcreteDecoratorA : public Decorator
+        {
+        public:
+            ConcreteDecoratorA(std::shared_ptr<Component> component) : Decorator(component)
+            {
+            }
+            std::string operation() const override
+            {
+                return "ConcreteDecoratorA(" + _component->operation() + ")";
+            }
+        };
+
+        class ConcreteDecoratorB : public Decorator
+        {
+        public:
+            ConcreteDecoratorB(std::shared_ptr<Component> component) : Decorator(component)
+            {
+            }
+            std::string operation() const override
+            {
+                return "ConcreteDecoratorB(" + _component->operation() + ")";
+            }
         };
 
         class Client
         {
         public:
-            void execute(std::shared_ptr<Component> component1, std::shared_ptr<Component> component2)
+            void execute(std::shared_ptr<Component> component)
             {
-                if (component1->is_composite())
-                {
-                    component1->add(component2);
-                }
-                std::cout << "result:" << component1->operation();
+                std::cout << component->operation() << "\n";
             }
         };
 
-    } // namespace composite
+    } // namespace decorator
 
 } // namespace structural
 
 int main()
 {
-    std::shared_ptr<structural::composite::Component> tree = std::make_shared<structural::composite::Composite>();
-    std::shared_ptr<structural::composite::Component> branch1 = std::make_shared<structural::composite::Composite>();
+    structural::decorator::Client client;
 
-    std::shared_ptr<structural::composite::Component> leaf1 = std::make_shared<structural::composite::Leaf>();
-    std::shared_ptr<structural::composite::Component> leaf2 = std::make_shared<structural::composite::Leaf>();
-    std::shared_ptr<structural::composite::Component> leaf3 = std::make_shared<structural::composite::Leaf>();
-    std::shared_ptr<structural::composite::Component> leaf4 = std::make_shared<structural::composite::Leaf>();
-    branch1->add(leaf1);
-    branch1->add(leaf2);
+    std::shared_ptr<structural::decorator::Component> simple_component = std::make_shared<structural::decorator::ConcreteComponent>();
+    std::cout << "Calling Client with a not decorated component:\n";
+    client.execute(simple_component);
+    std::cout << "\n\n";
 
-    std::shared_ptr<structural::composite::Component> branch2 = std::make_shared<structural::composite::Composite>();
-    branch2->add(leaf3);
-    tree->add(branch1);
-    tree->add(branch2);
-
-    std::cout << "Calling Client Code with the composite Tree:\n";
-    structural::composite::Client client;
-    client.execute(tree, leaf4);
+    std::shared_ptr<structural::decorator::Component> decorator1 = std::make_shared<structural::decorator::ConcreteDecoratorA>(simple_component);
+    std::shared_ptr<structural::decorator::Component> decorator2 = std::make_shared<structural::decorator::ConcreteDecoratorB>(decorator1);
+    std::cout << "Calling Client with a decorated component:\n";
+    client.execute(decorator2);
     std::cout << "\n";
 
     return 0;
