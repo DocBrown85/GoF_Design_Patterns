@@ -1,6 +1,5 @@
 #include <cstring>
 #include <iostream>
-#include <list>
 #include <memory>
 
 namespace structural
