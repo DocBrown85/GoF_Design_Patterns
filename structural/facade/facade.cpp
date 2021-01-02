@@ -37,10 +37,11 @@ namespace structural
         class Facade
         {
         public:
-            Facade()
+            Facade(std::unique_ptr<SubsystemA> subsystemA,
+                   std::unique_ptr<SubsystemB> subsystemB)
+                : _subsystemA(std::move(subsystemA)),
+                  _subsystemB(std::move(subsystemB))
             {
-                _subsystemA = std::make_unique<SubsystemA>();
-                _subsystemB = std::make_unique<SubsystemB>();
             }
 
             std::string operation() const
@@ -78,7 +79,9 @@ namespace structural
 
 int main()
 {
-    std::unique_ptr<structural::facade::Facade> facade = std::make_unique<structural::facade::Facade>();
+    std::unique_ptr<structural::facade::SubsystemA> subsystemA = std::make_unique<structural::facade::SubsystemA>();
+    std::unique_ptr<structural::facade::SubsystemB> subsystemB = std::make_unique<structural::facade::SubsystemB>();
+    std::unique_ptr<structural::facade::Facade> facade = std::make_unique<structural::facade::Facade>(std::move(subsystemA), std::move(subsystemB));
     structural::facade::Client client(std::move(facade));
     std::cout << client.execute();
     return 0;
