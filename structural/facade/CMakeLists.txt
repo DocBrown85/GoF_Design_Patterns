@@ -7,5 +7,8 @@ project(Facade)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# set compile options
+add_compile_options(-Wall -Wextra -pedantic -Werror)
+
 # add the executable
 add_executable(Facade facade.cpp)
