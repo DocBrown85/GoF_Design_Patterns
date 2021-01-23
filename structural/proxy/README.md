@@ -19,9 +19,9 @@ Provide a surrogate or placeholder for another object to control access to it.
 
     * *protected proxy*: check that the caller has the access permission required to perform a request.
   
-  * __Subject__: defines the common interface for RealSubject and Proxy so that a Proxy can be used anywhere RealSubject is expected.
+* __Subject__: defines the common interface for RealSubject and Proxy so that a Proxy can be used anywhere RealSubject is expected.
 
-  * __RealSubject__: defines the real object that the proxy represents.
+* __RealSubject__: defines the real object that the proxy represents.
 
 ## Structure
 
