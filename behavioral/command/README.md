@@ -24,7 +24,7 @@ Encapsulate a request as an object, thereby letting you parameterize clients wit
 
 * __Receiver__:
 
-  * knows how to perform the operations associated with carrying out a request. ANy class may serve as a Receiver.  
+  * knows how to perform the operations associated with carrying out a request. Any class may serve as a Receiver.  
 
 ## Structure
 
