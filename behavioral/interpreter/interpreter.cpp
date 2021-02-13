@@ -68,15 +68,25 @@ namespace behavioral
             int _times;
         };
 
+        class Client
+        {
+        public:
+            void execute()
+            {
+                std::unique_ptr<Context> context = std::make_unique<Context>();
+                std::unique_ptr<AbstractExpression> terminal_expression = std::make_unique<TerminalExpression>("Hello");
+                std::unique_ptr<AbstractExpression> non_terminal_expression = std::make_unique<NonterminalExpression>(std::move(terminal_expression), 2);
+                non_terminal_expression->Interpret(context);
+            }
+        };
+
     } // namespace interpreter
 
 } // namespace behavioral
 
 int main()
 {
-    std::unique_ptr<behavioral::interpreter::Context> c = std::make_unique<behavioral::interpreter::Context>();
-    std::unique_ptr<behavioral::interpreter::AbstractExpression> te = std::make_unique<behavioral::interpreter::TerminalExpression>("Hello");
-    std::unique_ptr<behavioral::interpreter::AbstractExpression> nte = std::make_unique<behavioral::interpreter::NonterminalExpression>(std::move(te), 2);
-    nte->Interpret(c);
+    behavioral::interpreter::Client client;
+    client.execute();
     return 0;
 }
