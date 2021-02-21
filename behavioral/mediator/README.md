@@ -4,19 +4,19 @@ Define an object that encapsulates how a set of objects interact. Mediator promo
 
 ## Partcipants
 
-* __Mediator__
+* __Mediator__:
   
   * defines an interface for communicating with Collegue objects.
 
-* __ConcreteMediator__
+* __ConcreteMediator__:
 
   * implements cooperative behavior by coordinating Collegue objects.
   
   * knows and maintains its collegues.
 
-* __Collegue classes__
+* __Collegue classes__:
 
-  * each Collegue class knows its Mediator object
+  * each Collegue class knows its Mediator object.
   
   * each collegue communicates with its mediator whenever it would have otherwise communicated with another collegue.
 
