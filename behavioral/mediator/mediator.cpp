@@ -69,7 +69,7 @@ namespace behavioral
 
             /*
              * This is needed because we cannot use shared_from_this() in constructors since there is no valid shared pointer
-             * available while executing constructors.
+             * available at that time.
              */
             void setup_collegues()
             {
