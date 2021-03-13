@@ -20,19 +20,13 @@ namespace behavioral
         class Context
         {
         public:
-            Context(Strategy *strategy = nullptr) : _strategy(strategy)
+            Context(std::unique_ptr<Strategy> strategy = nullptr) : _strategy(std::move(strategy))
             {
             }
 
-            ~Context()
+            void set_strategy(std::unique_ptr<Strategy> strategy)
             {
-                delete _strategy;
-            }
-
-            void set_strategy(Strategy *strategy)
-            {
-                delete this->_strategy;
-                this->_strategy = strategy;
+                this->_strategy = std::move(strategy);
             }
 
             void business_logic() const
@@ -43,7 +37,7 @@ namespace behavioral
             }
 
         private:
-            Strategy *_strategy;
+            std::unique_ptr<Strategy> _strategy;
         };
 
         class ConcreteStrategyA : public Strategy
@@ -83,14 +77,13 @@ namespace behavioral
         public:
             void execute()
             {
-                Context *context = new Context(new ConcreteStrategyA);
+                std::unique_ptr<Context> context = std::make_unique<Context>(std::make_unique<ConcreteStrategyA>());
                 std::cout << "Client: using normal sorting Strategy.\n";
                 context->business_logic();
                 std::cout << "\n";
                 std::cout << "Client: using reverse sorting Strategy.\n";
-                context->set_strategy(new ConcreteStrategyB);
+                context->set_strategy(std::make_unique<ConcreteStrategyB>());
                 context->business_logic();
-                delete context;
             }
         };
 
