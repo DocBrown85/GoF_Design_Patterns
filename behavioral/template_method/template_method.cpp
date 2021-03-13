@@ -81,7 +81,7 @@ namespace behavioral
         class Client
         {
         public:
-            void execute(AbstractClass *abstract_class)
+            void execute(const std::unique_ptr<AbstractClass> &abstract_class)
             {
                 abstract_class->template_method();
             }
@@ -95,14 +95,11 @@ int main()
 {
     behavioral::template_method::Client client;
 
-    behavioral::template_method::ConcreteClass1 *concrete_class_1 = new behavioral::template_method::ConcreteClass1();
+    std::unique_ptr<behavioral::template_method::AbstractClass> concrete_class_1 = std::make_unique<behavioral::template_method::ConcreteClass1>();
     client.execute(concrete_class_1);
 
-    behavioral::template_method::ConcreteClass2 *concrete_class_2 = new behavioral::template_method::ConcreteClass2();
+    std::unique_ptr<behavioral::template_method::AbstractClass> concrete_class_2 = std::make_unique<behavioral::template_method::ConcreteClass2>();
     client.execute(concrete_class_2);
-
-    delete concrete_class_1;
-    delete concrete_class_2;
 
     return 0;
 }
