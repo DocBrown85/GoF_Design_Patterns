@@ -32,22 +32,15 @@ namespace behavioral
         class Context
         {
         public:
-            Context(State *state) : _state(nullptr)
+            Context(std::unique_ptr<State> state) : _state(nullptr)
             {
-                this->transition_to(state);
+                this->transition_to(std::move(state));
             }
 
-            ~Context()
-            {
-                delete _state;
-            }
-
-            void transition_to(State *state)
+            void transition_to(std::unique_ptr<State> state)
             {
                 std::cout << "Context: Transition to " << typeid(*state).name() << ".\n";
-                if (this->_state != nullptr)
-                    delete this->_state;
-                this->_state = state;
+                this->_state = std::move(state);
                 this->_state->set_context(this);
             }
 
@@ -61,7 +54,7 @@ namespace behavioral
             }
 
         private:
-            State *_state;
+            std::unique_ptr<State> _state;
         };
 
         class ConcreteStateA : public State
@@ -86,7 +79,7 @@ namespace behavioral
             {
                 std::cout << "ConcreteStateB handles request2.\n";
                 std::cout << "ConcreteStateB wants to change the state of the context.\n";
-                this->_context->transition_to(new ConcreteStateA);
+                this->_context->transition_to(std::make_unique<ConcreteStateA>());
             }
         };
 
@@ -96,7 +89,7 @@ namespace behavioral
                 std::cout << "ConcreteStateA handles request1.\n";
                 std::cout << "ConcreteStateA wants to change the state of the context.\n";
 
-                this->_context->transition_to(new ConcreteStateB);
+                this->_context->transition_to(std::make_unique<ConcreteStateB>());
             }
         }
 
@@ -105,10 +98,9 @@ namespace behavioral
         public:
             void execute()
             {
-                Context *context = new Context(new ConcreteStateA);
+                std::unique_ptr<Context> context = std::make_unique<Context>(std::make_unique<ConcreteStateA>());
                 context->request1();
                 context->request2();
-                delete context;
             }
         };
 
