@@ -22,13 +22,13 @@ namespace behavioral
         {
         public:
             virtual ~Component() {}
-            virtual void accept(Visitor *visitor) const = 0;
+            virtual void accept(const std::unique_ptr<Visitor> &visitor) const = 0;
         };
 
         class ConcreteComponentA : public Component
         {
         public:
-            void accept(Visitor *visitor) const override
+            void accept(const std::unique_ptr<Visitor> &visitor) const override
             {
                 visitor->visit_concrete_component_a(this);
             }
@@ -42,7 +42,7 @@ namespace behavioral
         class ConcreteComponentB : public Component
         {
         public:
-            void accept(Visitor *visitor) const override
+            void accept(const std::unique_ptr<Visitor> &visitor) const override
             {
                 visitor->visit_concrete_component_b(this);
             }
@@ -85,25 +85,21 @@ namespace behavioral
         public:
             void execute()
             {
-                std::array<const Component *, 2> components = {new ConcreteComponentA, new ConcreteComponentB};
+                std::array<std::unique_ptr<Component>, 2> components = {
+                    std::make_unique<ConcreteComponentA>(),
+                    std::make_unique<ConcreteComponentB>()};
 
-                ConcreteVisitor1 *visitor1 = new ConcreteVisitor1;
+                std::unique_ptr<Visitor> visitor1 = std::make_unique<ConcreteVisitor1>();
                 apply_visitor(components, visitor1);
 
-                ConcreteVisitor2 *visitor2 = new ConcreteVisitor2;
+                std::unique_ptr<Visitor> visitor2 = std::make_unique<ConcreteVisitor2>();
                 apply_visitor(components, visitor2);
-
-                for (const Component *comp : components)
-                {
-                    delete comp;
-                }
-                delete visitor1;
-                delete visitor2;
             }
 
-            void apply_visitor(std::array<const Component *, 2> components, Visitor *visitor)
+            void apply_visitor(const std::array<std::unique_ptr<Component>, 2> &components,
+                               const std::unique_ptr<Visitor> &visitor)
             {
-                for (const Component *comp : components)
+                for (const std::unique_ptr<Component> &comp : components)
                 {
                     comp->accept(visitor);
                 }
